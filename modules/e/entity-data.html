@@ -1,0 +1,57 @@
+<div id=D__ID>
+    <div>
+        VmInclude:__COMPONENT__/g/grid.01.html
+    </div>
+    <script>
+        function F__ID(){
+            //-------------------------------------
+            VmInclude:__COMPONENT__/g/grid.01.js
+            //-------------------------------------
+            var fields="Entity";
+            m.fields="_Form,"+fields;
+            m.fields_e=fields
+            //-------------------------------------
+           var render_data=function(data){
+                m.records=[];
+                for(var i=0;i<data.length;i++){
+                    m.records.push({"Entity":data[i].LogicalCollectionName})
+                }
+                m.render();
+           }
+            m.request_data=function(){
+                function retrieveData(error, token){
+                    var req = new XMLHttpRequest()  
+                    req.open("GET", encodeURI($vm.organizationURI + "/api/data/v9.1/EntityDefinitions?$select=LogicalCollectionName"), true);  
+                    
+                    //Set Bearer token  
+                    req.setRequestHeader("Authorization", "Bearer " + token);  
+                    req.setRequestHeader("Accept", "application/json");  
+                    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");  
+                    req.setRequestHeader("OData-MaxVersion", "4.0");  
+                    req.setRequestHeader("OData-Version", "4.0");  
+                    req.onreadystatechange = function () {  
+                        if (this.readyState == 4 /* complete */) {  
+                            req.onreadystatechange = null;  
+                            if (this.status == 200) {  
+                                var data = JSON.parse(this.response).value;  
+                                //render_data(data);  
+                                console.log(data);
+                                render_data(data);
+                            }  
+                            else {  
+                                var error = JSON.parse(this.response).error;  
+                                console.log(error.message);  
+                                //errorMessage.textContent = error.message;  
+                            }  
+                        }  
+                    };  
+                    req.send(); 
+                }
+                $vm.authContext.acquireToken($vm.organizationURI, retrieveData);  
+            }
+        }
+    </script>
+    <style>
+        VmInclude:__COMPONENT__/g/grid.01.css
+    </style>
+</div>

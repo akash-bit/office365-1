@@ -1,0 +1,58 @@
+
+<div id=D__ID>
+        <section id=form_container__ID>
+            <div id=header__ID>
+                Table 1
+            </div>
+            <form id=F__ID>
+                <div class="container">
+                    <!-- Form Inputs-------------------------------------->
+                    <div id=dynamic_part__ID></div>
+                    <!---------------------------------------------------->
+                    <!-- submit button part for all tsak forms------------>
+                    <br>
+                    <div class="row">
+                        <div class=col>
+                            <button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
+                        </div>
+                    </div>
+                    <!---------------------------------------------------->
+                </div>
+            </form>
+        </section>
+        <script>
+            function F__ID(){
+                //-------------------------------------
+                //build text input fields
+                var fields="Firstname,Lastname";
+                var fs=fields.split(',');
+                var txt="";
+                for(var i=0;i<fs.length;i++){
+                    txt+="<div class='row row__ID'><div class='col'>\r\n";
+                    txt+="<span>"+fs[i].replace(/_/g," ")+"</span><input type=text class=form-control name="+fs[i]+">\r\n";
+                    txt+="</div></div>\r\n";
+                }
+                $('#dynamic_part__ID').html(txt);
+                //-------------------------------------
+                VmInclude:__COMPONENT__/f/form.01.js
+                //-------------------------------------
+m.load=function(){
+    $('#D__ID').scrollTop(0);
+    $(window).scrollTop(0);
+    $('#F__ID')[0].reset();
+    $('#submit__ID').show();
+    console.log(m.input.record)
+    $('#delete__ID').hide(); if(m.input.record!=undefined && m.input.record._id!==undefined) $('#delete__ID').show();
+    $vm.deserialize(m.input.record,'#F__ID');
+}
+//-------------------------------
+            }
+        </script>
+        <style>
+            #form_container__ID{
+                max-width:700px;
+            }
+            VmInclude:__COMPONENT__/f/form.01.css
+        </style>
+    </div>
+    
